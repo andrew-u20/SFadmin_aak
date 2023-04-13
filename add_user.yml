@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    sudoGroup: "{{ 'sudo' if ansible_distribution == 'Ubuntu' else 'wheel' }}"
+  tasks:
+    - name: Add user to remote hosts
+      user: name=ansible-admin groups="{{ sudoGroup }}" shell=/bin/bash
+    - name: Add SSH keys to remote hosts
+      authorized_key: user=ansible-admin key="{{ lookup('file', '/etc/ansible/common/files/id_rsa.pub') }}"
