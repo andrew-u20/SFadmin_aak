@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    sudoGroup: "{{ 'sudo' if ansible_distribution == 'Ubuntu' else 'wheel' }}"
+  tasks:
+    - name: Add user to remote hosts
+      user: name=ansible-admin groups="{{ sudoGroup }}" shell=/bin/bash
