@@ -1,0 +1,18 @@
+-
+  name: Installing Repository
+  hosts: all
+  become: yes
+  tasks:
+    - name: Installing zabbix agent
+      apt:
+        name: zabbix-agent
+        state: latest
+    - name: Copy Zabbix agent config
+      copy:
+        src: /etc/ansible/zabbix_agentd.conf
+        dest: /etc/zabbix/zabbix_agentd.conf
+    - name: Start Zabbix agent
+      service:
+        name: zabbix-agent
+        enabled: yes
+        state: started
